@@ -380,6 +380,8 @@ namespace DataAccess
                 if (cmdConnect.State != ConnectionState.Open) cmdConnect.Open();
 
                 string cmdText = cmdParam.cmdText;
+
+                // OracleCommand - will require cmdText not terminated with a semicolon ";"
                 OleDbCommand cmd = new OleDbCommand(cmdText, cmdConnect);
 
 

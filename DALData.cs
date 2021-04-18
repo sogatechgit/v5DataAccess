@@ -9,14 +9,60 @@ namespace DataAccess
     public static class DALData
     {
 
+        public static bool isORA
+        {
+            get
+            {
+                return DAL.DAL_TYPE == "ORACLE";
+            }
+        }
+
+        public static bool isOLE
+        {
+            get
+            {
+                return DAL.DAL_TYPE == "JET";
+            }
+        }
+
+        public static bool isSQL
+        {
+            get
+            {
+                return DAL.DAL_TYPE == "MSSQL";
+            }
+        }
         public static string PARAM_PREFIX
         {
             get
             {
-                return DAL.DAL_TYPE == "ORACLE" ? ":" : "@";
+                return isORA ? ":" : "@";
             }
         }
 
+        public static string AS_TBL
+        {
+            get
+            {
+                return isORA ? "" : "AS";
+            }
+        }
+
+        public static string TBL_LDEL
+        {
+            get
+            {
+                return isORA ? "\"" : "[";
+            }
+        }
+
+        public static string TBL_RDEL
+        {
+            get
+            {
+                return isORA ? "\"" : "]";
+            }
+        }
 
         private static DALDataOleDb _DataOleDb = null;
         public static DALDataOleDb DataOleDb
@@ -54,7 +100,24 @@ namespace DataAccess
         // To use OleDb, name the OleDbProvider property as DAL and 
         //   rename the other data provider properties as something else
         // OleDbProvider Property
-        public static DALDataOleDb DAL
+        //
+
+
+        public static DALDataOracle DAL
+        {
+            get { return DataOracle; }
+        }
+
+        //public static DALDataOleDb DAL
+        //{
+        //    get { return DataOleDb; }
+        //}
+
+
+        // To use OleDb, name the OleDbProvider property as DAL and 
+        //   rename the other data provider properties as something else
+        // OleDbProvider Property
+        public static DALDataOleDb DALOleDb
         {
             get { return DataOleDb; }
         }

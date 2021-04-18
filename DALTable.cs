@@ -47,7 +47,7 @@ namespace DataAccess
 
         //this.foreignField = _g.TKVStr(args, "foreign_field");
 
-        public List<CommandParam> CreateNewLinkCommandParams(Int64 parentId, string childIds, bool clear = true,bool simultaneous=false)
+        public List<CommandParam> CreateNewLinkCommandParams(Int64 parentId, string childIds, bool clear = true, bool simultaneous = false)
         {
             // parentId - key value of the record from the parent table
             // childIds - comma-delimited string specifying the key value from the child table
@@ -62,9 +62,9 @@ namespace DataAccess
             string cond = "";
             Dictionary<string, dynamic> prms = new Dictionary<string, dynamic>() { { table.PARAM_PREFIX + "p0", parentId } };
 
-            string sqlTemplate = "insert into [{0}] ({1}, {2}) " +
+            string sqlTemplate = "insert into " + DALData.TBL_LDEL + "{0}" + DALData.TBL_RDEL + " ({1}, {2}) " +
                      "select " + table.PARAM_PREFIX + "p0" + table.FIELD_ALIAS_LINK + "{3}, {4}" + table.FIELD_ALIAS_LINK + "{5} " +
-                     (simultaneous ? ";" : "from {6} " + "where ({7});");
+                     (simultaneous ? ";" : "from {6} where ({7});");
 
             // INSERT : add insert command to cdms command collection
 
@@ -231,8 +231,8 @@ namespace DataAccess
         {
             get
             {
-                return String.Format("[{0}] AS L INNER JOIN {1} AS T ON L.{2} = T.{3}",
-                        linkTableName, tableChild.tableName, linkTableFieldB, tableChild.keyCol.name);
+                return String.Format("[{0}] AS L INNER JOIN {1} {2} T ON L.{3} = T.{4}",
+                        linkTableName, tableChild.tableName,DALData.AS_TBL, linkTableFieldB, tableChild.keyCol.name);
 
             }
         }
@@ -932,25 +932,53 @@ namespace DataAccess
                 returnFields: true
              );
 
+            if (tableName == "IMSA_TBL_USERS")
+            {
+                string ww = "";
+            }
+
             this.log = retTbl.result.debugStrings;
 
+
+            // Iterate through the fields of the recordset
             foreach (FieldInfo f in retTbl.result.fields)
             {
-                // if column is not yet defined ...
 
-                ColumnInfo ci = null;
-                if (columns.Count(c => c.name == f.name) == 0)
+                string colName = f.name;
+
+                // find column from the columns collection
+                ColumnInfo ci = columns.Find(c=>c.name == colName);
+
+                // if column is not yet defined ...
+                if (ci == null)
                 {
-                    // field is not yet in the columns collection
                     ci = new ColumnInfo(f.name, f.type, isLong: f.isLong, prefix: tableFieldPrefix);
                     columns.Add(ci);
                 }
                 else
                 {
                     // column already exist, just update the type
-                    ci = columns.First(c => c.name == f.name);
-                    if (ci != null) ci.type = f.type;
+                    ci.type = f.type;
                 }
+
+                if (tableName == "IMSA_TBL_USERS")
+                {
+                    string yy ="";
+                }
+
+                //if (columns.Count(c => c.name == f.name) == 0)
+                //{
+                //    // field is not yet in the columns collection
+                //    ci = new ColumnInfo(f.name, f.type, isLong: f.isLong, prefix: tableFieldPrefix);
+                //    columns.Add(ci);
+                //}
+                //else
+                //{
+                //    // column already exist, just update the type
+                //    ci = columns.First(c => c.name == f.name);
+                //    if (ci != null) ci.type = f.type;
+                //}
+
 
                 if (ci != null)
                 {
@@ -964,7 +992,10 @@ namespace DataAccess
 
             }
 
-
+            if (tableName == "IMSA_TBL_USERS")
+            {
+                string xx = retTbl.result.fields + ", " + columns.Count;
+            }
 
         }
 
@@ -2273,7 +2304,7 @@ namespace DataAccess
             string selectExpr = includedFields;
             string whereValues = key;
             string sortExpr = sortFields;
-            string whereFields = keyField;
+             string whereFields = keyField;
 
             Dictionary<string, dynamic> sqlSelectCommandObject = SQLSelectCommandParam(fromClauseExpr, selectExpr, filter, sortExpr, distinct);
 
@@ -2658,8 +2689,6 @@ namespace DataAccess
             string firstRelCode = "";
             string maxRelCode = "";
 
-            string countRelField = "";
-            string firstRelField = "";
             string maxRelField = "";
 
             bool withFirstAgreggate = false; //(firstRelCode.Length != 0 && rel.type == TableRelationTypes.ONE2MANY);
@@ -2725,7 +2754,8 @@ namespace DataAccess
             {
                 // => #INSERT#
                 if (includeColumns != null) cols = includeColumns;
-                ret = "insert into [" + tableName + "] (" + SQLText(fromInsert: true, includeColumns: cols) + ") select ";
+                // ret = "insert into " + DALData.TBL_LDEL + tableName + DALData.TBL_RDEL + " (" + SQLText(fromInsert: true, includeColumns: cols) + ") select ";
+                ret = "insert into " + DALData.TBL_LDEL + tableName + DALData.TBL_RDEL + " (" + SQLText(fromInsert: true, includeColumns: cols) + ") values ( ";
             }
             else if (mode == SQLModes.UPDATE)
             {
@@ -2870,7 +2900,8 @@ namespace DataAccess
                         // comma delimited select field
                         // results to ....
                         // 1. @p0 as [field_0], @p1 as [field_1], ... ,@p# as [field_#]
-                        ret += _g.GetDelim(isInitial) + String.Format("{0}p{1}{2}{3}", PARAM_PREFIX, ctr, FIELD_ALIAS_LINK, col.name);
+                        // ret += _g.GetDelim(isInitial) + String.Format("{0}p{1}{2}{3}", PARAM_PREFIX, ctr, FIELD_ALIAS_LINK, col.name);
+                        ret += _g.GetDelim(isInitial) + String.Format("{0}p{1}", PARAM_PREFIX, ctr);
                         ctr++;
                     }
                     else if (condOrDel)
@@ -2963,13 +2994,9 @@ namespace DataAccess
 
                 if (parentTable != null && parentField != null)
                 {
-                    /* 
-                     * SELECT T.* 
-                     * FROM tblLink AS P INNER JOIN tblChild AS T ON P.lnk_chi_id = T.chi_id
-                        WHERE (((P.lnk_par_id)=5));
-                     */
-                    fromClause = String.Format("{0} as L inner join {1} as T on [L].{2} = T.{3}",
-                        parentTable.tableName, tableName, parentField, dataLinkField);
+
+                    fromClause = String.Format("{0} as L inner join {1} {2} T on [L].{3} = T.{4}",
+                        parentTable.tableName, tableName,DALData.AS_TBL, parentField, dataLinkField);
                 }
                 else if (fromLink)
                 {
@@ -2977,7 +3004,7 @@ namespace DataAccess
                 }
                 else
                 {
-                    fromClause = tableName + " as T ";
+                    fromClause =String.Format("{0} {1} T ",tableName,DALData.AS_TBL) ;
                 }
 
                 ret += " from " + fromClause +
@@ -2990,7 +3017,13 @@ namespace DataAccess
             if (mode == SQLModes.UPDATE && !noCond) ret += SQLText(SQLModes.CONDITION, ctr, whereColumns: whereColumns);
 
             //append SQL terminator ;
-            if (mode != SQLModes.CONDITION && mode != SQLModes.SORT && !fromInsert) ret += ";"; // append terminating semicolon...
+            if (mode != SQLModes.CONDITION && mode != SQLModes.SORT && !fromInsert)
+
+            {
+
+                if (mode == SQLModes.INSERT) ret += ")";
+                if(!DALData.isORA) ret += ";"; // append terminating semicolon...
+            }
 
             return ret;
         }
@@ -3667,7 +3700,7 @@ namespace DataAccess
                 prms.Add(table.PARAM_PREFIX + "p" + fields.Count, data[keyField.name]);
 
                 // retreive current record to filter only the fields that are to change
-                List<Dictionary<string, dynamic>> rec = DALData.DAL.GetDictionaryArray(new CommandParam(sql, prms));
+                List<Dictionary<string, dynamic>> rec = DALData.DAL.GetDictionaryArray(new CommandParam(sql , prms));
                 if (rec.Count != 0)
                 {
                     Dictionary<string, dynamic> row = rec[0];

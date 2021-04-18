@@ -29,7 +29,8 @@ namespace DataAccess
         public static string SQLT_SELECT_ALL = "select {0} from {1}";
 
         public static string SQLT_UPDATE = "update {0} set {1} where ({2});";
-        public static string SQLT_INSERT = "insert into {0} ( {1} ) SELECT {2};";
+        //public static string SQLT_INSERT = "insert into {0} ( {1} ) SELECT {2};";
+        public static string SQLT_INSERT = "insert into {0} ( {1} ) VALUES ({2});";
         public static string SQLT_DELETE = "delete from {0} where ({1});";
 
 
