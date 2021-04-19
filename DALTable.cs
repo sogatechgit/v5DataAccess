@@ -2603,14 +2603,14 @@ namespace DataAccess
             string sql = this.tableChangeTrack.SQLText(SQLModes.INSERT);
             Dictionary<string, dynamic> prmVals = new Dictionary<string, dynamic>();
 
-            // 0 - trk_id
-            // 1 - trk_user_login
-            // 2 - trk_table_code
-            // 3 - trk_field_name
-            // 4 - trk_action
-            // 5 - trk_key_value
-            // 6 - trk_stamp
-            // 7 - trk_rec_info
+            // 0 - TRK_ID
+            // 1 - TRK_USER_LOGIN
+            // 2 - TRK_TABLE_CODE
+            // 3 - TRK_FIELD_NAME
+            // 4 - TRK_ACTION
+            // 5 - TRK_KEY_VALUE
+            // 6 - TRK_STAMP
+            // 7 - TRK_REC_INFO
 
             prmVals.Add(PARAM_PREFIX + "p0", this.tableChangeTrack.NewAutoId);
             prmVals.Add(PARAM_PREFIX + "p1", uid);

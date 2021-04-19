@@ -138,7 +138,10 @@ namespace DataAccess
                 // add parameters to command object
                 foreach (string key in cmdParam.cmdParams.Keys)
                 {
-                    cmd.Parameters.Add(key, cmdParam.cmdParams[key]);
+                    if(cmdParam.cmdParams[key].GetType().Name == "JValue")
+                        cmd.Parameters.Add(key, cmdParam.cmdParams[key].Value);
+                    else
+                        cmd.Parameters.Add(key, cmdParam.cmdParams[key]);
                 }
 
                 // if passed command text is not a SQL statement, CommandType is StoredProcedure, else Text
@@ -292,7 +295,10 @@ namespace DataAccess
                 {
                     foreach (string key in cmdParam.cmdParams.Keys)
                     {
-                        cmd.Parameters.Add(key, cmdParam.cmdParams[key]);
+                        if (cmdParam.cmdParams[key].GetType().Name == "JValue")
+                            cmd.Parameters.Add(key, cmdParam.cmdParams[key].Value);
+                        else
+                            cmd.Parameters.Add(key, cmdParam.cmdParams[key]);
 
                     }
                 }

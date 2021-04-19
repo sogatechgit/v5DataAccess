@@ -76,6 +76,14 @@ namespace DataAccess
         }
 
 
+        public object ParamValue(Dictionary<string, dynamic> paramList, string itemKey)
+        {
+            if (paramList[itemKey].GetType().Name == "JValue")
+                return paramList[itemKey].Value;
+            else
+                return paramList[itemKey];
+        }
+
         public dynamic DALCastValue(ColumnInfo col, dynamic paramValue = null)
         {
             return DALCastValue(col.type, paramValue);
@@ -138,12 +146,13 @@ namespace DataAccess
             File.AppendAllText(logFile, DateTime.Now + ": " + msg + "\r\n", Encoding.UTF8);
         }
 
-        public void LogGlobalMessage(dynamic msg, string key = "",bool clear=false)
+        public void LogGlobalMessage(dynamic msg, string key = "", bool clear = false)
         {
             if (globalMessages == null)
             {
                 globalMessages = new List<JObject>();
-            }else
+            }
+            else
             {
                 if (clear) globalMessages.Clear();
             }
@@ -153,7 +162,7 @@ namespace DataAccess
             if (dType.IndexOf("JObject") != -1)
                 globalMessages.Add(msg);
             else if (dType.IndexOf("JArray") != -1)
-                globalMessages.Add(new JObject() { [key.Length!=0 ? key : "array"] = msg });
+                globalMessages.Add(new JObject() { [key.Length != 0 ? key : "array"] = msg });
             else
                 globalMessages.Add(new JObject() { [key.Length != 0 ? key : "message"] = msg });
         }
