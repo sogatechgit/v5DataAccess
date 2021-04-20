@@ -103,15 +103,15 @@ namespace DataAccess
         //
 
 
-        public static DALDataOracle DAL
-        {
-            get { return DataOracle; }
-        }
-
-        //public static DALDataOleDb DAL
+        //public static DALDataOracle DAL
         //{
-        //    get { return DataOleDb; }
+        //    get { return DataOracle; }
         //}
+
+        public static DALDataOleDb DAL
+        {
+            get { return DataOleDb; }
+        }
 
 
         // To use OleDb, name the OleDbProvider property as DAL and 

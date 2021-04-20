@@ -138,10 +138,7 @@ namespace DataAccess
                 // add parameters to command object
                 foreach (string key in cmdParam.cmdParams.Keys)
                 {
-                    if(cmdParam.cmdParams[key].GetType().Name == "JValue")
-                        cmd.Parameters.Add(key, cmdParam.cmdParams[key].Value);
-                    else
-                        cmd.Parameters.Add(key, cmdParam.cmdParams[key]);
+                    cmd.Parameters.Add(key, ParamValue(cmdParam.cmdParams, key));
                 }
 
                 // if passed command text is not a SQL statement, CommandType is StoredProcedure, else Text
@@ -190,7 +187,8 @@ namespace DataAccess
                 // add parameters to command object
                 if (cmdParams != null)
                     foreach (string key in cmdParams.Keys)
-                        cmd.Parameters.Add(key, cmdParams[key]);
+                        //cmd.Parameters.Add(key, cmdParams[key]);
+                        cmd.Parameters.Add(key, ParamValue(cmdParams, key));
 
                 Int64 ret = Convert.ToInt64(cmd.ExecuteScalar());
 
@@ -295,10 +293,7 @@ namespace DataAccess
                 {
                     foreach (string key in cmdParam.cmdParams.Keys)
                     {
-                        if (cmdParam.cmdParams[key].GetType().Name == "JValue")
-                            cmd.Parameters.Add(key, cmdParam.cmdParams[key].Value);
-                        else
-                            cmd.Parameters.Add(key, cmdParam.cmdParams[key]);
+                        cmd.Parameters.Add(key, ParamValue(cmdParam.cmdParams, key));
 
                     }
                 }
