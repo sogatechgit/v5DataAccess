@@ -144,7 +144,7 @@ namespace DataAccess
             {
                 // delete all linked records under the specified parent id
                 return new CommandParam(
-                    String.Format("delete from [{0}] where {1} = " + table.PARAM_PREFIX + "p0;", linkTableName, linkTableFieldA),
+                    String.Format("delete from "+ DALData.TBL_LDEL  + "{0}"+ DALData.TBL_RDEL +" where {1} = " + table.PARAM_PREFIX + "p0;", linkTableName, linkTableFieldA),
                     new Dictionary<string, dynamic>() { { table.PARAM_PREFIX + "p0", parentId } }, _table: this.table);
 
             }
@@ -162,7 +162,7 @@ namespace DataAccess
                     prms.Add(String.Format(table.PARAM_PREFIX + "p{0}", i), Convert.ToInt64(childIdsArr[i - 1]));
                 }
 
-                return new CommandParam(String.Format("delete from [{0}] where ({1} = " + table.PARAM_PREFIX + "p0 And ({2}));",
+                return new CommandParam(String.Format("delete from " + DALData.TBL_LDEL + "{0}" + DALData.TBL_RDEL + " where ({1} = " + table.PARAM_PREFIX + "p0 And ({2}));",
                                         linkTableName, linkTableFieldA, cond), prms, _table: this.table);
             }
         }

@@ -1,4 +1,8 @@
-﻿using System;
+﻿#define ORA
+//#define OLE
+//#define SQL
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -103,39 +107,34 @@ namespace DataAccess
         //
 
 
-        public static DALDataOracle DAL
-        {
-            get { return DataOracle; }
-        }
+        public static DALDataOracle DAL = DataOracle;
+        //public static DALDataOleDb DAL = DataOleDb;
+        //public static DALDataMSSQL DAL = DataMSSQL;
 
-        //public static DALDataOleDb DAL
-        //{
-        //    get { return DataOleDb; }
-        //}
 
 
         // To use OleDb, name the OleDbProvider property as DAL and 
         //   rename the other data provider properties as something else
         // OleDbProvider Property
-        public static DALDataOleDb DALOleDb
-        {
-            get { return DataOleDb; }
-        }
+        //public static DALDataOleDb DALOleDb
+        //{
+        //    get { return DataOleDb; }
+        //}
 
         // To use Oracle, name the OracleProvider property as DAL
         //   rename the other data provider properties as something else
         // OracleProvider Property
-        public static DALDataOracle DALOracle
-        {
-            get { return DataOracle; }
-        }
+        //public static DALDataOracle DALOracle
+        //{
+        //    get { return DataOracle; }
+        //}
 
         // To use MS SQL, name the MSSQLProvider property as DAL
         //   rename the other data provider properties as something else
         // MSSQLProvider Property
-        public static DALDataMSSQL DALMSSQL
-        {
-            get { return DataMSSQL; }
-        }
+        //public static DALDataMSSQL DALMSSQL
+        //{
+        //    get { return DataMSSQL; }
+        //}
     }
 }
