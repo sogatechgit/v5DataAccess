@@ -293,7 +293,7 @@ namespace DataAccess
             int fromMarker = oldFromClause.IndexOf("from ");
             string ret = oldFromClause;
             if (fromMarker != -1) ret = oldFromClause.Substring(fromMarker + 5);
-            ret = String.Format(" from ({0}) INNER JOIN [{1}] as {2} on {3}.{4}={5}.{6}",
+            ret = String.Format(" from ({0}) INNER JOIN "+ DALData.TBL_LDEL + "{1}" + DALData.TBL_RDEL + " "+ DALData.AS_TBL +" {2} on {3}.{4}={5}.{6}",
                 ret, linkTableName, xFix, xFix, linkLocalField, linkLocalTableCode, linkLocalTableKey);
             return ret;
         }
@@ -2995,8 +2995,8 @@ namespace DataAccess
                 if (parentTable != null && parentField != null)
                 {
 
-                    fromClause = String.Format("{0} as L inner join {1} {2} T on [L].{3} = T.{4}",
-                        parentTable.tableName, tableName,DALData.AS_TBL, parentField, dataLinkField);
+                    fromClause = String.Format("{0} {1} L inner join {2} {3} T on [L].{4} = T.{5}",
+                        parentTable.tableName, DALData.AS_TBL, tableName, DALData.AS_TBL, parentField, dataLinkField);
                 }
                 else if (fromLink)
                 {
@@ -3004,7 +3004,7 @@ namespace DataAccess
                 }
                 else
                 {
-                    fromClause =String.Format("{0} {1} T ",tableName,DALData.AS_TBL) ;
+                    fromClause = String.Format("{0} {1} T ", tableName, DALData.AS_TBL);
                 }
 
                 ret += " from " + fromClause +
