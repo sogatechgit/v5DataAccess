@@ -107,8 +107,8 @@ namespace DataAccess
         //
 
 
-        public static DALDataOracle DAL = DataOracle;
-        //public static DALDataOleDb DAL = DataOleDb;
+        //public static DALDataOracle DAL = DataOracle;
+        public static DALDataOleDb DAL = DataOleDb;
         //public static DALDataMSSQL DAL = DataMSSQL;
 
 
