@@ -43,3 +43,4 @@ C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Release\DataAcces
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Release\DataAccess.csproj.CopyComplete
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Release\DataAccess.dll
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Release\DataAccess.pdb
+C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\bin\Release\Oracle.ManagedDataAccess.dll
