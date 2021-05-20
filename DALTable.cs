@@ -932,7 +932,7 @@ namespace DataAccess
                 returnFields: true
              );
 
-            if (tableName == "IMSA_TBL_USERS")
+            if (tableName == "QRY_SPANS_HEADER")
             {
                 string ww = "";
             }
@@ -961,10 +961,7 @@ namespace DataAccess
                     ci.type = f.type;
                 }
 
-                if (tableName == "IMSA_TBL_USERS")
-                {
-                    string yy ="";
-                }
+
 
                 //if (columns.Count(c => c.name == f.name) == 0)
                 //{
@@ -988,6 +985,11 @@ namespace DataAccess
 
                     // set column's owner table
                     ci.table = this;
+                }
+
+                if (tableName == "QRY_SPANS_HEADER")
+                {
+                    string yy = "";
                 }
 
             }
