@@ -38,7 +38,6 @@ C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\bin\Release\EntityFra
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\bin\Release\Microsoft.AspNet.Identity.Core.xml
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\bin\Release\Microsoft.AspNet.Identity.EntityFramework.xml
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\bin\Release\Newtonsoft.Json.xml
-C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Release\DataAccess.csprojAssemblyReference.cache
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Release\DataAccess.csproj.CoreCompileInputs.cache
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Release\DataAccess.csproj.CopyComplete
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Release\DataAccess.dll

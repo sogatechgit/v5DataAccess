@@ -60,4 +60,3 @@ C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\bin\Debug\Newtonsoft.
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Debug\DataAccess.csproj.CopyComplete
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Debug\DataAccess.dll
 C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Debug\DataAccess.pdb
-C:\Users\alv\Documents\data\soga\WebAPIProjects\DataAccess\obj\Debug\DataAccess.csprojAssemblyReference.cache

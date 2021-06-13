@@ -62,24 +62,25 @@ namespace DataAccess
             string cond = "";
             Dictionary<string, dynamic> prms = new Dictionary<string, dynamic>() { { table.PARAM_PREFIX + "p0", parentId } };
 
+            //string sqlTemplate = "insert into " + DALData.TBL_LDEL + "{0}" + DALData.TBL_RDEL + " ({1}, {2}) " +
+            //         (simultaneous ? "values(" : "select ") + table.PARAM_PREFIX + "p0" + table.FIELD_ALIAS_LINK + "{3}, {4}" + table.FIELD_ALIAS_LINK + "{5} " +
+            //         (simultaneous ? ");" : "from {6} where ({7});");
+
             string sqlTemplate = "insert into " + DALData.TBL_LDEL + "{0}" + DALData.TBL_RDEL + " ({1}, {2}) " +
-                     "select " + table.PARAM_PREFIX + "p0" + table.FIELD_ALIAS_LINK + "{3}, {4}" + table.FIELD_ALIAS_LINK + "{5} " +
-                     (simultaneous ? ";" : "from {6} where ({7});");
+                    (simultaneous ?
+                    "values (" + table.PARAM_PREFIX + "p0," + table.PARAM_PREFIX + "p1 )" :
+                    "select " + table.PARAM_PREFIX + "p0" + table.FIELD_ALIAS_LINK + "{3}, {4}" + table.FIELD_ALIAS_LINK + "{5}  from {6} where ({7});");
 
             // INSERT : add insert command to cdms command collection
 
             if (simultaneous)
             {
                 prms.Add(table.PARAM_PREFIX + "p1", Convert.ToInt64(childIdsArr[0]));
-                cmds.Add(new CommandParam(String.Format(sqlTemplate,
-
-                                                linkTableName,
-                                                linkTableFieldA,
-                                                linkTableFieldB,
-                                                linkTableFieldA,
-                                                tableChild.keyCol.name,
-                                                linkTableFieldB
-                                            ),
+                cmds.Add(new CommandParam(
+                    simultaneous ?
+                    String.Format(sqlTemplate, linkTableName, linkTableFieldA, linkTableFieldB)
+                    : String.Format(sqlTemplate, linkTableName, linkTableFieldA, linkTableFieldB, linkTableFieldA, tableChild.keyCol.name, linkTableFieldB)
+                    ,
                                             prms
                                           )
                         );  //cmds.Add(...)
