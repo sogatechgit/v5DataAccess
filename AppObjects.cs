@@ -486,14 +486,14 @@ namespace DataAccess
                 fmt = "//<INSTANTIATE>{0}\n//</INSTANTIATE>";
                 dsts = tsArr[0] + String.Format(fmt, instanceScript) + tsArr2[1];
 
-                if (relScript.Length != 0)
-                {
-                    tsArr = _g.Split(dsts, "//<RELATIONS>");
-                    tsArr2 = _g.Split(tsArr[1], "//</RELATIONS>");
+                //if (relScript.Length != 0)
+                //{
+                tsArr = _g.Split(dsts, "//<RELATIONS>");
+                tsArr2 = _g.Split(tsArr[1], "//</RELATIONS>");
 
-                    fmt = "//<RELATIONS>{0}\n//</RELATIONS>";
-                    dsts = tsArr[0] + String.Format(fmt, relScript) + tsArr2[1];
-                }
+                fmt = "//<RELATIONS>{0}\n//</RELATIONS>";
+                dsts = tsArr[0] + String.Format(fmt, relScript) + tsArr2[1];
+                //}
 
                 tsArr = _g.Split(dsts, "//<DECLARE>");
                 tsArr2 = _g.Split(tsArr[1], "//</DECLARE>");
